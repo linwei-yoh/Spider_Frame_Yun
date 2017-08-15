@@ -6,7 +6,7 @@ import time
 from Schedule import Schedule
 from Clock_Thread import ClockThread
 from Task_Allot_Thread import TaskAllot
-from Fetch_Thread import FetchThread, FetchThreadProxy
+from Fetch_Thread import FetchThread
 from Parse_Thread import ParseThread
 from Save_Thread import SaveThread
 from Monitor_Thread import MonitorThread
