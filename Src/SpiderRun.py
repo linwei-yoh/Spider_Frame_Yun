@@ -46,7 +46,7 @@ def WebSpider_Start(start_tasks):
         fetch_worker = OwFetchWorker(session, max_repeat=max_retries)
         parse_worker = OwPaeseWorker()
         save_worker = OwSaveWorker(mongo_client)
-        web_spider = WebSpider(fetch_worker, parse_worker, save_worker, schedule, redis_client, proxy=False)
+        web_spider = WebSpider(fetch_worker, parse_worker, save_worker, schedule, redis_client)
 
         # 根据任务状态表 添加任务队列
         print("开始载入task:-----------------")
