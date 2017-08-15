@@ -15,7 +15,7 @@ from logger_config import report_logger
 
 
 class Spider(object):
-    def __init__(self, fetch_worker, parse_worker, save_worker, schedule: Schedule, client=None, proxy=False):
+    def __init__(self, fetch_worker, parse_worker, save_worker, schedule: Schedule, client=None):
         """
         爬虫组件初始化
         :param fetch_worker: 爬取处理组件
@@ -25,7 +25,6 @@ class Spider(object):
         :param client: 爬取任务来源 
         """
         self.client = client
-        self.proxy = proxy
 
         self.fetcher = fetch_worker
         self.parser = parse_worker
@@ -52,11 +51,7 @@ class Spider(object):
         task_allot_thread = TaskAllot(self.client, self.schedule, self.spiderManager)
 
         # 爬取线程
-        if self.proxy:
-            print("启用 代理模式")
-            fetch_thread = FetchThreadProxy(self.client, self.fetcher, fetcher_num, self.spiderManager)
-        else:
-            fetch_thread = FetchThread(self.client, self.fetcher, fetcher_num, self.spiderManager)
+        fetch_thread = FetchThread(self.client, self.fetcher, fetcher_num, self.spiderManager)
 
         # 解析线程
         parse_thread = ParseThread(self.client, self.parser, parser_num, self.spiderManager)
