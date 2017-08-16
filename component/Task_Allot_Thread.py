@@ -35,9 +35,12 @@ class TaskAllot(Thread):
     def _run(self):
         while True:
             if self.spiderManager.fetch_queue.is_valid:
-                tasks = self.client.get_idle_task(self.schedule.frequency)
-                for idle_task in tasks:
-                    self.spiderManager.fetch_queue.put_nowait(idle_task)
+                rec, fin = self.spiderManager.fetch_queue.get_count()
+                if self.schedule.frequency > (rec - fin):
+                    need = self.schedule.frequency - (rec - fin)
+                    tasks = self.client.get_idle_task(need)
+                    for idle_task in tasks:
+                        self.spiderManager.fetch_queue.put_nowait(idle_task)
             time.sleep(self.schedule.interval)
 
             if self.spiderManager.TaskAllot_Sta == ThreadSta.Finish:
